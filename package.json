@@ -4,7 +4,7 @@
   "description": "Programa de gestión de limpieza de un mercado municipal",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/ejemplo.test.js"
+    "test": "node tests/SGLTest.js"
   },
   "dependencies": {},
   "devDependencies": {}
