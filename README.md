@@ -1,59 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Sistema de Gestión de Residuos del Mercado Municipal
+Este proyecto es una aplicación web completa desarrollada con Laravel 11 y Docker (Sail), diseñada para digitalizar y optimizar el proceso de gestión de limpieza en un mercado municipal.
 
-## About Laravel
+Responde a la problemática de la acumulación de basura, la falta de horarios definidos y la inexistente trazabilidad de las tareas de limpieza, proponiendo una solución "TO-BE" basada en una arquitectura de software moderna (MVC) con control de acceso por roles.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Funcionalidades Clave
+El sistema implementa una arquitectura basada en roles (RBAC) con tres niveles de acceso:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Administrador:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* Acceso a un dashboard principal con vistas de gestión.
 
-## Learning Laravel
+* CRUD completo de Tareas: Crear, asignar, editar y eliminar tareas de limpieza.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+* CRUD completo de Usuarios: Gestionar cuentas y asignar roles (admin, personal, ciudadano).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* CRUD completo de Incidencias: Ver, gestionar y resolver los reportes enviados por los ciudadanos.
 
-## Laravel Sponsors
+### Personal de Limpieza:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+* Vista filtrada que muestra solo las tareas asignadas a él.
 
-### Premium Partners
+* Permiso para actualizar el estado de sus tareas (ej. "pendiente" -> "completada").
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Ciudadano (Comerciante/Cliente):
 
-## Contributing
+* Acceso a un portal simplificado.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* Permiso para crear/reportar nuevas incidencias.
 
-## Code of Conduct
+## Stack Tecnológico
+Este proyecto utiliza un entorno de desarrollo 100% contenerizado con Docker.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* Backend: PHP 8.3 / Laravel 11
 
-## Security Vulnerabilities
+* Frontend: Blade / Tailwind CSS (vía Laravel Breeze)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* Base de Datos: MySQL
 
-## License
+* Contenerización: Docker (con Laravel Sail)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* Servicios Adicionales: Redis, phpMyAdmin
+
+* Testing: Behat (para BDD) y Pest (para pruebas unitarias/feature)
+
+## Prerrequisitos
+* Para ejecutar este proyecto, solo necesitas tener instalado Docker Desktop en tu sistema.
+
+* (En Windows) Se recomienda usar WSL 2 (Windows Subsystem for Linux 2) como backend de Docker.
+
+## Instrucciones de Instalación
+El proyecto está configurado con Laravel Sail y se puede levantar con un solo comando. Todos los comandos deben ejecutarse desde un terminal de Linux (o WSL 2 en Windows).
+
+    1. Clonar el Repositorio
+
+        git clone https://github.com/romario2701/SGLimpieza.git
+
+        cd SGLimpieza
+
+
+    2. Levantar los Contenedores de Docker Este comando iniciará el servidor web, la base de datos (MySQL), Redis y phpMyAdmin.
+
+
+        ./vendor/bin/sail up -d
+
+    (La primera vez, esto puede tardar unos minutos mientras Docker descarga las imágenes).
+
+    3. Instalar Dependencias de Composer (PHP)
+
+        ./vendor/bin/sail composer install
+
+    4. Generar la Clave de la Aplicación
+
+        ./vendor/bin/sail artisan key:generate
+
+    5. Ejecutar las Migraciones Esto creará todas las tablas en tu base de datos (users, tarea_limpiezas, incidencias).
+
+        ./vendor/bin/sail artisan migrate
+
+    6. Instalar Dependencias de NPM (Frontend)
+
+        ./vendor/bin/sail npm install
+
+    7. Compilar los Archivos de Frontend
+
+        ./vendor/bin/sail npm run dev
+
+
+### Acceso a la Aplicación
+
+
+    1. Aplicación Web:
+
+        URL: http://localhost
+
+    2. Base de Datos (phpMyAdmin):
+
+        URL: http://localhost:8081
+
+        Servidor: mysql
+
+        Usuario: sail
+
+        Contraseña: password
+
+### Primeros Pasos
+* Accede a http://localhost/register para crear tu primera cuenta de usuario.
+
+* Por defecto, esta cuenta tendrá el rol de ciudadano.
+
+* Ve a phpMyAdmin (http://localhost:8081), entra a la base de datos (GestionLimpieza o la que definiste) y, en la tabla users, cambia manualmente el role de tu usuario a admin.
+
+* Vuelve a la aplicación. Ahora tendrás acceso a los CRUDs de Tareas y Usuarios para crear más cuentas con los roles personal y ciudadano.
